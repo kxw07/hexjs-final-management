@@ -59,6 +59,7 @@ export default {
 <style scoped>
 
 .form-signin {
+  padding-top: 50px;
   max-width: 300px;
   margin: auto;
 }
