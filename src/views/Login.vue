@@ -58,4 +58,8 @@ export default {
 
 <style scoped>
 
+.form-signin {
+  max-width: 300px;
+  margin: auto;
+}
 </style>

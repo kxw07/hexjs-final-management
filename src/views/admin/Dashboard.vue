@@ -1,11 +1,11 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/admin">Admin Home</router-link> |
-      <router-link to="/admin/products">Admin Products</router-link> |
-      <router-link to="/admin/coupons">Admin Coupons</router-link> |
-      <router-link to="/admin/orders">Admin Orders</router-link> |
-      <router-link to="/admin/pictures">Admin Pictures</router-link> |
+      <router-link to="/admin">Home</router-link> |
+      <router-link to="/admin/products">Products</router-link> |
+      <router-link to="/admin/coupons">Coupons</router-link> |
+      <router-link to="/admin/orders">Orders</router-link> |
+      <router-link to="/admin/pictures">Pictures</router-link> |
       <router-link to="/admin/logout">Logout</router-link>
     </div>
     <router-view/>
