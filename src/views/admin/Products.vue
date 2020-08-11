@@ -43,18 +43,22 @@
     </div>
     <paging class="paging" :pagination="pagination" v-on:change-page="getProducts"></paging>
 
-<!--    <product-modal :editing-product="editingProduct" :product-modal-is-creating="productModalIsCreating" :user="user" v-on:update-products="getProducts"></product-modal>-->
-<!--    <delete-modal :editing-product="editingProduct" :user="user" v-on:update-products="getProducts"></delete-modal>-->
+    <product-modal :editing-product="editingProduct" :product-modal-is-creating="productModalIsCreating" :user="user" v-on:update-products="getProducts"></product-modal>
+    <delete-modal :editing-product="editingProduct" :user="user" v-on:update-products="getProducts"></delete-modal>
   </div>
 </template>
 
 <script>
 import paging from '@/components/paging.vue'
+import productModal from '@/components/productModal.vue'
+import deleteModal from '@/components/deleteModal.vue'
 
 export default {
   name: 'Products',
   components: {
-    paging
+    paging,
+    productModal,
+    deleteModal
   },
   data () {
     return {
@@ -127,6 +131,7 @@ export default {
     },
     getProductDetail (productId) {
       return new Promise((resolve, reject) => {
+        const loader = this.$loading.show()
         const headers = {
           'Content-Type': 'application/json',
           Accept: 'application/json',
@@ -138,6 +143,7 @@ export default {
           method: 'get',
           headers: headers
         }).then(res => {
+          loader.hide()
           resolve(res.data.data)
         }).catch(err => {
           console.log(err)

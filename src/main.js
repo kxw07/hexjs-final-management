@@ -8,6 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import Loading from 'vue-loading-overlay'
 import 'vue-loading-overlay/dist/vue-loading.css'
 import _ from 'lodash'
+import $ from 'jquery'
 
 Vue.config.productionTip = false
 
@@ -15,6 +16,7 @@ Vue.use(VueAxios, axios)
 Vue.use(Loading)
 
 Vue.prototype._ = _
+Vue.prototype.$ = $
 
 new Vue({
   router,
