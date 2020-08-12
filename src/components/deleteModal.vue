@@ -10,11 +10,11 @@
           </button>
         </div>
         <div class="modal-body">
-          是否刪除 <strong class="text-danger">{{editingProduct.title}}</strong> 商品(刪除後將無法恢復)！
+          是否刪除 <strong class="text-danger">{{editingItem.title}}</strong> 商品(刪除後將無法恢復)！
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-          <button type="button" class="btn bg-danger text-white" v-on:click="deleteProduct()">確認刪除</button>
+          <button type="button" class="btn bg-danger text-white" v-on:click="deleteItem()">確認刪除</button>
         </div>
       </div>
     </div>
@@ -28,14 +28,18 @@ export default {
     return {}
   },
   props: {
-    editingProduct: {},
+    mode: {
+      type: String,
+      default: ''
+    },
+    editingItem: {},
     user: {
       token: '',
       uuid: ''
     }
   },
   methods: {
-    deleteProduct () {
+    deleteItem () {
       const headers = {
         'Content-Type': 'application/json',
         Accept: 'application/json',
@@ -43,11 +47,11 @@ export default {
       }
 
       this.axios({
-        url: `https://course-ec-api.hexschool.io/api/${this.user.uuid}/admin/ec/product/${this.editingProduct.id}`,
+        url: `${process.env.VUE_APP_API_URL}/api/${this.user.uuid}/admin/ec/${this.mode}/${this.editingItem.id}`,
         method: 'delete',
         headers: headers
       }).then(res => {
-        this.$emit('update-products')
+        this.$emit('update-list')
         this.$('#deleteModal').modal('hide')
       }).catch(err => {
         console.log(err)
