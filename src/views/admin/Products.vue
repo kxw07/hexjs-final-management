@@ -44,7 +44,7 @@
     <paging class="paging" :pagination="pagination" v-on:change-page="getProducts"></paging>
 
     <product-modal :editing-product="editingProduct" :product-modal-is-creating="productModalIsCreating" :user="user" v-on:update-products="getProducts"></product-modal>
-    <delete-modal :editing-product="editingProduct" :user="user" v-on:update-products="getProducts"></delete-modal>
+    <delete-modal :mode='"product"' :editing-item="editingProduct" :user="user" v-on:update-list="getProducts"></delete-modal>
   </div>
 </template>
 
