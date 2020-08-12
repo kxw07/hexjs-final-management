@@ -10,11 +10,11 @@
           <th width="70">項次</th>
           <th width="120">優惠券名</th>
           <th width="120">優惠碼</th>
-          <th width="120">折數</th>
+          <th width="120">折扣百分比</th>
           <th width="120">到期時間</th>
           <th width="120">建立時間</th>
           <th width="120">更新時間</th>
-          <th width="120">是否啟用</th>
+          <th width="120">是否開放</th>
           <th width="120">編輯</th>
         </tr>
         </thead>
@@ -32,14 +32,14 @@
             <span v-else>未啟用</span>
           </td>
           <td>
-<!--            <div class="btn-group">-->
-<!--              <button type="button" v-on:click="openModal('editProduct', product)"-->
-<!--                      class="btn btn-outline-primary btn-sm">編輯-->
-<!--              </button>-->
-<!--              <button type="button" v-on:click="openModal('deleteProduct', product)"-->
-<!--                      class="btn btn-outline-danger btn-sm">刪除-->
-<!--              </button>-->
-<!--            </div>-->
+            <div class="btn-group">
+              <button type="button" v-on:click="openModal('editCoupon', coupon)"
+                      class="btn btn-outline-primary btn-sm">編輯
+              </button>
+              <button type="button" v-on:click="openModal('deleteCoupon', coupon)"
+                      class="btn btn-outline-danger btn-sm">刪除
+              </button>
+            </div>
           </td>
         </tr>
         </tbody>
@@ -48,21 +48,21 @@
     <paging class="paging" :pagination="pagination" v-on:change-page="getCoupons"></paging>
 
     <coupon-modal :editing-coupon="editingCoupon" :coupon-modal-is-creating="couponModalIsCreating" :user="user" v-on:update-coupons="getCoupons"></coupon-modal>
-<!--    <delete-modal :editing-product="editingProduct" :user="user" v-on:update-products="getProducts"></delete-modal>-->
+    <delete-modal :mode='"coupon"' :editing-item="editingCoupon" :user="user" v-on:update-list="getCoupons"></delete-modal>
   </div>
 </template>
 
 <script>
 import paging from '@/components/paging.vue'
 import couponModal from '@/components/couponModal.vue'
-// import deleteModal from '@/components/deleteModal.vue'
+import deleteModal from '@/components/deleteModal.vue'
 
 export default {
   name: 'Coupons',
   components: {
     paging,
-    couponModal
-    // deleteModal
+    couponModal,
+    deleteModal
   },
   data () {
     return {

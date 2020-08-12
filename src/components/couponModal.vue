@@ -1,75 +1,54 @@
 <template>
   <div class="modal fade" id="couponModal" tabindex="-1" role="dialog" aria-labelledby="couponModalLabel"
        aria-hidden="true">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-l">
       <div class="modal-content">
         <div class="modal-header bg-dark text-white">
-          <h5 class="modal-title" id="couponModalLabel">{{couponModalIsCreating?"新增產品":"編輯產品"}}</h5>
+          <h5 class="modal-title" id="couponModalLabel">{{ couponModalIsCreating ? '新增優惠券' : '編輯優惠券' }}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
           <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm">
               <div class="form-group">
-                <label for="imageUrl">圖片網址</label>
-                <input id="imageUrl" type="text" placeholder="請輸入圖片連結" class="form-control" v-model="editingcoupon.imageUrl"/>
+                <label for="couponTitle">優惠券名稱</label>
+                <input id="couponTitle" type="text" placeholder="請輸入優惠券名稱" class="form-control"
+                       v-model="editingCoupon.title"/>
               </div>
-              <img :src="editingcoupon.imageUrl" class="img-fluid"/>
-            </div>
-            <div class="col-sm-8">
+
               <div class="form-group">
-                <label for="couponTitle">產品名稱</label>
-                <input id="couponTitle" type="text" placeholder="請輸入產品名稱" class="form-control"
-                       v-model="editingcoupon.title"/>
+                <label for="couponCode">優惠碼</label>
+                <input id="couponCode" type="text" placeholder="請輸入優惠碼" class="form-control"
+                       v-model="editingCoupon.code"/>
               </div>
+
               <div class="form-row">
                 <div class="form-group col-md-6">
-                  <label for="couponCategory">分類</label>
-                  <input id="couponCategory" type="text" placeholder="請輸入分類" class="form-control"
-                         v-model="editingcoupon.category"/>
+                  <label for="couponPercent">折扣百分比</label>
+                  <input id="couponPercent" type="number" placeholder="請輸入折扣百分比" class="form-control"
+                         v-model="editingCoupon.percent"/>
                 </div>
+
                 <div class="form-group col-md-6">
-                  <label for="couponUnit">單位</label>
-                  <input id="couponUnit" type="text" placeholder="請輸入單位" class="form-control"
-                         v-model="editingcoupon.unit"/>
-                </div>
-              </div>
-              <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label for="couponOriginPrice">原價</label>
-                  <input id="couponOriginPrice" type="number" placeholder="請輸入原價" class="form-control"
-                         v-model="editingcoupon.origin_price"/>
-                </div>
-                <div class="form-group col-md-6">
-                  <label for="couponPrice">售價</label>
-                  <input id="couponPrice" type="number" placeholder="請輸入售價" class="form-control"
-                         v-model="editingcoupon.price"/>
+                  <label for="couponDeadline">到期時間</label>
+                  <input id="couponDeadline" type="datetime-local" placeholder="請輸入到期時間" class="form-control"
+                         v-model="editingCoupon.deadline"/>
                 </div>
               </div>
               <hr>
-              <div class="form-group">
-                <label for="couponDescription">產品描述</label>
-                <input id="couponDescription" type="text" placeholder="請輸入產品描述" class="form-control"
-                       v-model="editingcoupon.description"/>
-              </div>
-              <div class="form-group">
-                <label for="couponContent">產品說明</label>
-                <input id="couponContent" type="text" placeholder="請輸入產品說明" class="form-control"
-                       v-model="editingcoupon.content"/>
-              </div>
               <div class="form-check">
                 <input id="is_enabled" type="checkbox" class="form-check-input"
-                       v-model="editingcoupon.enabled"/>
-                <label for="is_enabled" class="form-check-label">是否啟用</label>
+                       v-model="editingCoupon.enabled"/>
+                <label for="is_enabled" class="form-check-label">是否開放</label>
               </div>
             </div>
           </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-          <button type="button" class="btn btn-primary" v-on:click="savecoupon()">確認</button>
+          <button type="button" class="btn btn-primary" v-on:click="saveCoupon()">確認</button>
         </div>
       </div>
     </div>
@@ -77,13 +56,17 @@
 </template>
 
 <script>
+import moment from 'moment'
+
 export default {
   name: 'couponModal',
+  components: {},
   data () {
     return {}
   },
   props: {
-    editingcoupon: {},
+    editingCoupon: {
+    },
     couponModalIsCreating: {
       type: Boolean,
       default: true
@@ -94,23 +77,23 @@ export default {
     }
   },
   methods: {
-    savecoupon () {
-      const apiUrlForCreate = `https://course-ec-api.hexschool.io/api/${this.user.uuid}/admin/ec/coupon`
-      const apiUrlForUpdate = `https://course-ec-api.hexschool.io/api/${this.user.uuid}/admin/ec/coupon/${this.editingcoupon.id}`
+    saveCoupon () {
+      const apiUrlForCreate = `${process.env.VUE_APP_API_URL}/api/${this.user.uuid}/admin/ec/coupon`
+      const apiUrlForUpdate = `${process.env.VUE_APP_API_URL}/api/${this.user.uuid}/admin/ec/coupon/${this.editingCoupon.id}`
 
-      if (this.editingcoupon.imageUrl) {
-        const imageUrlArray = []
-        imageUrlArray.push(this.editingcoupon.imageUrl)
-        this.editingcoupon.imageUrl = imageUrlArray
-      }
+      const cloneCoupon = Object.assign({}, this.editingCoupon)
+      cloneCoupon.deadline_at = moment(this.editingCoupon.deadline.datetime).format('YYYY-MM-DD HH:mm:ss')
+      console.log(cloneCoupon)
 
+      const loader = this.$loading.show()
       this.axios({
         url: this.couponModalIsCreating ? apiUrlForCreate : apiUrlForUpdate,
         method: this.couponModalIsCreating ? 'post' : 'patch',
         headers: this.getHeader(),
-        data: this.editingcoupon
+        data: cloneCoupon
       }).then(res => {
         this.$('#couponModal').modal('hide')
+        loader.hide()
         this.$emit('update-coupons')
       }).catch(err => {
         console.log(err)

@@ -58,10 +58,9 @@ export default {
           api_token: this.user.token
         }
       }).then(res => {
-        console.log('Token is valid', res)
       }).catch(err => {
         console.log(err)
-        this.$router.push('/login')
+        this.$router.push('/')
       })
     }
   }
