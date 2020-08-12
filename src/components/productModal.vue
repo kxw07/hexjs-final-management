@@ -95,8 +95,8 @@ export default {
   },
   methods: {
     saveProduct () {
-      const apiUrlForCreate = `https://course-ec-api.hexschool.io/api/${this.user.uuid}/admin/ec/product`
-      const apiUrlForUpdate = `https://course-ec-api.hexschool.io/api/${this.user.uuid}/admin/ec/product/${this.editingProduct.id}`
+      const apiUrlForCreate = `${process.env.VUE_APP_API_URL}/api/${this.user.uuid}/admin/ec/product`
+      const apiUrlForUpdate = `${process.env.VUE_APP_API_URL}/api/${this.user.uuid}/admin/ec/product/${this.editingProduct.id}`
 
       if (this.editingProduct.imageUrl) {
         const imageUrlArray = []

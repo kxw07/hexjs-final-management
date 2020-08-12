@@ -62,31 +62,33 @@ export default {
   },
   data () {
     return {
-      products: [],
-      editingProduct: {},
-      pagination: {},
-      productModalIsCreating: true,
       user: {
         token: '',
         uuid: ''
-      }
+      },
+      products: [],
+      editingProduct: {},
+      pagination: {},
+      productModalIsCreating: true
     }
   },
   created () {
-    const cookies = document.cookie.split(';')
-    cookies.forEach(keyValue => {
-      const key = keyValue.trim().split('=')[0]
-      const value = keyValue.trim().split('=')[1]
-      this.user[key] = value
-    })
+    this.setUserInfoData()
 
     if (this.user.token === '' || this.user.uuid === '') {
-      window.location = 'login.html'
+      this.$router.push('/')
     }
 
     this.getProducts()
   },
   methods: {
+    setUserInfoData () {
+      document.cookie.split(';').forEach(keyValue => {
+        const key = keyValue.trim().split('=')[0]
+        const value = keyValue.trim().split('=')[1]
+        this.user[key] = value
+      })
+    },
     getProducts (page = this.pagination.current_page || 1) {
       const loader = this.$loading.show()
       const headers = {
@@ -96,7 +98,7 @@ export default {
       }
 
       this.axios({
-        url: `https://course-ec-api.hexschool.io/api/${this.user.uuid}/admin/ec/products?page=${page}`,
+        url: `${process.env.VUE_APP_API_URL}/api/${this.user.uuid}/admin/ec/products?page=${page}`,
         method: 'get',
         headers: headers
       }).then(res => {
@@ -139,7 +141,7 @@ export default {
         }
 
         this.axios({
-          url: `https://course-ec-api.hexschool.io/api/${this.user.uuid}/admin/ec/product/${productId}`,
+          url: `${process.env.VUE_APP_API_URL}/api/${this.user.uuid}/admin/ec/product/${productId}`,
           method: 'get',
           headers: headers
         }).then(res => {
