@@ -1,17 +1,17 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/admin">Home</router-link>
+      <router-link to="/admin">首頁</router-link>
       |
-      <router-link to="/admin/products">Products</router-link>
+      <router-link to="/admin/products">產品列表</router-link>
       |
-      <router-link to="/admin/coupons">Coupons</router-link>
+      <router-link to="/admin/coupons">優惠券列表</router-link>
       |
-      <router-link to="/admin/orders">Orders</router-link>
+      <router-link to="/admin/orders">訂單列表</router-link>
       |
-      <router-link to="/admin/pictures">Pictures</router-link>
+      <router-link to="/admin/pictures">圖片列表</router-link>
       |
-      <router-link to="/admin/logout">Logout</router-link>
+      <router-link to="/admin/logout">登出</router-link>
     </div>
     <router-view/>
   </div>

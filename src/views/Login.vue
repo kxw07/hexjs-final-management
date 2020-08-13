@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <form class="form-signin text-center" v-on:submit.prevent="login">
-      <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+      <h1 class="h3 mb-3 font-weight-normal">請登入</h1>
 
       <div class="form-group">
         <label for="inputEmail" class="sr-only">Email address</label>
