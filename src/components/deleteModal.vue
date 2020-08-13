@@ -46,12 +46,14 @@ export default {
         Authorization: `Bearer ${this.user.token}`
       }
 
+      const loader = this.$loading.show()
       this.axios({
         url: `${process.env.VUE_APP_API_URL}/api/${this.user.uuid}/admin/ec/${this.mode}/${this.editingItem.id}`,
         method: 'delete',
         headers: headers
       }).then(res => {
         this.$emit('update-list')
+        loader.hide()
         this.$('#deleteModal').modal('hide')
       }).catch(err => {
         console.log(err)
