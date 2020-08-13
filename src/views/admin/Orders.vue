@@ -2,49 +2,84 @@
   <div id="app" class="container">
     <h2>訂單列表</h2>
     <div>
-      <div class="text-right mt-4">
-        <button type="button" v-on:click="openModal('createProduct')" class="btn btn-primary">建立新產品</button>
-      </div>
       <table class="table mt-4">
         <thead>
-        <tr>
-          <th width="70">項次</th>
-          <th width="120">分類</th>
-          <th>產品名稱</th>
-          <th width="120">原價</th>
-          <th width="120">售價</th>
-          <th width="120">是否啟用</th>
-          <th width="120">編輯</th>
-        </tr>
+          <tr>
+            <th width="70">項次</th>
+            <th width>訂單編號</th>
+            <th width="120">購買商品</th>
+            <th width="120">優惠券</th>
+            <th width="120">總價</th>
+            <th width="120">付款資訊</th>
+            <th width="120">建立時間</th>
+            <th width="120">更新時間</th>
+          </tr>
         </thead>
         <tbody>
-        <tr v-for="(product, index) in products" :key="product.id">
-          <td>{{index+1}}</td>
-          <td>{{product.category}}</td>
-          <td>{{product.title}}</td>
-          <td class="text-right">{{product.origin_price}}</td>
-          <td class="text-right">{{product.price}}</td>
-          <td>
-            <span v-if="product.enabled" class="text-success">啟用</span>
-            <span v-else>未啟用</span>
-          </td>
-          <td>
-            <div class="btn-group">
-              <button type="button" v-on:click="openModal('editProduct', product)"
-                      class="btn btn-outline-primary btn-sm">編輯
-              </button>
-              <button type="button" v-on:click="openModal('deleteProduct', product)"
-                      class="btn btn-outline-danger btn-sm">刪除
-              </button>
-            </div>
-          </td>
-        </tr>
+          <tr v-for="(order, index) in orders" :key="order.id">
+            <td>{{index+1}}</td>
+            <td>{{order.id}}</td>
+            <td>{{order.products}}</td>
+            <td>{{order.coupon}}</td>
+            <td class="text-right">{{order.amount}}</td>
+            <td>{{order.payment}}</td>
+          </tr>
         </tbody>
       </table>
     </div>
-    <paging class="paging" :pagination="pagination" v-on:change-page="getProducts"></paging>
-
-    <product-modal :editing-product="editingProduct" :product-modal-is-creating="productModalIsCreating" :user="user" v-on:update-products="getProducts"></product-modal>
-    <delete-modal :mode='"product"' :editing-item="editingProduct" :user="user" v-on:update-list="getProducts"></delete-modal>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'Orders',
+  data () {
+    return {
+      user: {
+        token: '',
+        uuid: ''
+      },
+      orders: []
+    }
+  },
+  created () {
+    this.setUserInfoData()
+
+    if (this.user.token === '' || this.user.uuid === '') {
+      this.$router.push('/')
+    }
+
+    this.getOrders()
+  },
+  methods: {
+    setUserInfoData () {
+      document.cookie.split(';').forEach(keyValue => {
+        const key = keyValue.trim().split('=')[0]
+        const value = keyValue.trim().split('=')[1]
+        this.user[key] = value
+      })
+    },
+    getOrders () {
+      const loader = this.$loading.show()
+      const headers = {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: `Bearer ${this.user.token}`
+      }
+
+      this.axios({
+        url: `${process.env.VUE_APP_API_URL}/api/${this.user.uuid}/admin/ec/orders`,
+        method: 'get',
+        headers: headers
+      }).then(res => {
+        this.orders = this._.sortBy(res.data.data, ['updated', 'created'])
+        this.pagination = res.data.meta.pagination
+        loader.hide()
+      }).catch(err => {
+        console.error(err)
+        loader.hide()
+      })
+    }
+  }
+}
+</script>
