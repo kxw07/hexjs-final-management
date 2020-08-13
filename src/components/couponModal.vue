@@ -1,7 +1,7 @@
 <template>
   <div class="modal fade" id="couponModal" tabindex="-1" role="dialog" aria-labelledby="couponModalLabel"
        aria-hidden="true">
-    <div class="modal-dialog modal-l">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-dark text-white">
           <h5 class="modal-title" id="couponModalLabel">{{ couponModalIsCreating ? '新增優惠券' : '編輯優惠券' }}</h5>
@@ -25,16 +25,16 @@
               </div>
 
               <div class="form-row">
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-4">
                   <label for="couponPercent">折扣百分比</label>
                   <input id="couponPercent" type="number" placeholder="請輸入折扣百分比" class="form-control"
                          v-model="editingCoupon.percent"/>
                 </div>
 
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-8">
                   <label for="couponDeadline">到期時間</label>
-                  <input id="couponDeadline" type="datetime-local" placeholder="請輸入到期時間" class="form-control"
-                         v-model="editingCoupon.deadline"/>
+                  <input id="couponDeadline" type="datetime-local" step="2" placeholder="請輸入到期時間" class="form-control"
+                         v-model="editingCoupon.deadline_at"/>
                 </div>
               </div>
               <hr>
@@ -81,16 +81,14 @@ export default {
       const apiUrlForCreate = `${process.env.VUE_APP_API_URL}/api/${this.user.uuid}/admin/ec/coupon`
       const apiUrlForUpdate = `${process.env.VUE_APP_API_URL}/api/${this.user.uuid}/admin/ec/coupon/${this.editingCoupon.id}`
 
-      const cloneCoupon = Object.assign({}, this.editingCoupon)
-      cloneCoupon.deadline_at = moment(this.editingCoupon.deadline.datetime).format('YYYY-MM-DD HH:mm:ss')
-      console.log(cloneCoupon)
+      this.editingCoupon.deadline_at = moment(this.editingCoupon.deadline_at).format('YYYY-MM-DD HH:mm:ss')
 
       const loader = this.$loading.show()
       this.axios({
         url: this.couponModalIsCreating ? apiUrlForCreate : apiUrlForUpdate,
         method: this.couponModalIsCreating ? 'post' : 'patch',
         headers: this.getHeader(),
-        data: cloneCoupon
+        data: this.editingCoupon
       }).then(res => {
         this.$('#couponModal').modal('hide')
         loader.hide()

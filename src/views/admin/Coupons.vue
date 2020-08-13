@@ -20,13 +20,13 @@
         </thead>
         <tbody>
         <tr v-for="(coupon, index) in coupons" :key="coupon.id">
-          <td>{{index+1}}</td>
-          <td>{{coupon.title}}</td>
-          <td>{{coupon.code}}</td>
-          <td class="text-right">{{coupon.percent}}</td>
-          <td>{{coupon.deadline.datetime}}</td>
-          <td>{{coupon.created.datetime}}</td>
-          <td>{{coupon.updated.datetime}}</td>
+          <td>{{ index + 1 }}</td>
+          <td>{{ coupon.title }}</td>
+          <td>{{ coupon.code }}</td>
+          <td class="text-right">{{ coupon.percent }}</td>
+          <td>{{ coupon.deadline.datetime }}</td>
+          <td>{{ coupon.created.datetime }}</td>
+          <td>{{ coupon.updated.datetime }}</td>
           <td>
             <span v-if="coupon.enabled" class="text-success">啟用</span>
             <span v-else>未啟用</span>
@@ -47,8 +47,10 @@
     </div>
     <paging class="paging" :pagination="pagination" v-on:change-page="getCoupons"></paging>
 
-    <coupon-modal :editing-coupon="editingCoupon" :coupon-modal-is-creating="couponModalIsCreating" :user="user" v-on:update-coupons="getCoupons"></coupon-modal>
-    <delete-modal :mode='"coupon"' :editing-item="editingCoupon" :user="user" v-on:update-list="getCoupons"></delete-modal>
+    <coupon-modal :editing-coupon="editingCoupon" :coupon-modal-is-creating="couponModalIsCreating" :user="user"
+                  v-on:update-coupons="getCoupons"></coupon-modal>
+    <delete-modal :mode='"coupon"' :editing-item="editingCoupon" :user="user"
+                  v-on:update-list="getCoupons"></delete-modal>
   </div>
 </template>
 
@@ -56,6 +58,7 @@
 import paging from '@/components/paging.vue'
 import couponModal from '@/components/couponModal.vue'
 import deleteModal from '@/components/deleteModal.vue'
+import moment from 'moment'
 
 export default {
   name: 'Coupons',
@@ -117,13 +120,28 @@ export default {
       switch (mode) {
         case 'createCoupon':
           this.couponModalIsCreating = true
-          this.editingCoupon = {}
+          this.editingCoupon = {
+            title: '',
+            code: '',
+            percent: '',
+            enabled: false,
+            deadline_at: new Date()
+          }
           this.$('#couponModal').modal('show')
           break
         case 'editCoupon':
           this.couponModalIsCreating = false
           this.getCouponDetail(coupon.id).then(couponDetail => {
-            this.editingCoupon = couponDetail
+            this.editingCoupon = Object.assign({
+              title: '',
+              code: '',
+              percent: '',
+              enabled: false,
+              deadline_at: new Date()
+            }, couponDetail)
+
+            this.editingCoupon.deadline_at = moment(couponDetail.deadline.datetime).format('YYYY-MM-DDTHH:mm:ss')
+
             this.$('#couponModal').modal('show')
           })
           break
