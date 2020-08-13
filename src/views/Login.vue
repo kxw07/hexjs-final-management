@@ -47,11 +47,12 @@ export default {
       }).then(res => {
         document.cookie = `token=${res.data.token}; max-age=1800; path=/`
         document.cookie = `uuid=${res.data.uuid}; max-age=1800; path=/`
-        loader.hide()
         this.$router.push('/admin')
+        loader.hide()
       }).catch(err => {
         this.msg = err.response
-        console.log(err)
+        console.error(err)
+        loader.hide()
       })
     }
   }

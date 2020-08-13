@@ -91,10 +91,11 @@ export default {
         data: this.editingCoupon
       }).then(res => {
         this.$('#couponModal').modal('hide')
-        loader.hide()
         this.$emit('update-coupons')
+        loader.hide()
       }).catch(err => {
-        console.log(err)
+        console.error(err)
+        loader.hide()
       })
     },
     getHeader () {

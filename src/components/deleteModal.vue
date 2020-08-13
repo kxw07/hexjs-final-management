@@ -53,10 +53,11 @@ export default {
         headers: headers
       }).then(res => {
         this.$emit('update-list')
-        loader.hide()
         this.$('#deleteModal').modal('hide')
+        loader.hide()
       }).catch(err => {
-        console.log(err)
+        console.error(err)
+        loader.hide()
       })
     }
   }

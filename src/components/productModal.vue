@@ -104,6 +104,8 @@ export default {
         this.editingProduct.imageUrl = imageUrlArray
       }
 
+      const loader = this.$loading.show()
+
       this.axios({
         url: this.productModalIsCreating ? apiUrlForCreate : apiUrlForUpdate,
         method: this.productModalIsCreating ? 'post' : 'patch',
@@ -112,8 +114,10 @@ export default {
       }).then(res => {
         this.$('#productModal').modal('hide')
         this.$emit('update-products')
+        loader.hide()
       }).catch(err => {
-        console.log(err)
+        console.error(err)
+        loader.hide()
       })
     },
     getHeader () {

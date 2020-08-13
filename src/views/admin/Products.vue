@@ -1,5 +1,6 @@
 <template>
   <div id="app" class="container">
+    <h2>產品列表</h2>
     <div>
       <div class="text-right mt-4">
         <button type="button" v-on:click="openModal('createProduct')" class="btn btn-primary">建立新產品</button>
@@ -106,7 +107,8 @@ export default {
         this.pagination = res.data.meta.pagination
         loader.hide()
       }).catch(err => {
-        console.log(err)
+        console.error(err)
+        loader.hide()
       })
     },
     openModal (mode, product) {
@@ -145,10 +147,11 @@ export default {
           method: 'get',
           headers: headers
         }).then(res => {
-          loader.hide()
           resolve(res.data.data)
+          loader.hide()
         }).catch(err => {
-          console.log(err)
+          console.error(err)
+          loader.hide()
         })
       })
     }
