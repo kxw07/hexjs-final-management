@@ -1,8 +1,6 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/admin">首頁</router-link>
-      |
       <router-link to="/admin/products">產品列表</router-link>
       |
       <router-link to="/admin/coupons">優惠券列表</router-link>

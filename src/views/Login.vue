@@ -16,7 +16,7 @@
       </div>
       <span class="text-danger">{{msg}}</span>
 
-      <button type="submit" class="btn btn-lg btn-primary btn-block">Sign in</button>
+      <button type="submit" class="btn btn-lg btn-primary btn-block">登入</button>
     </form>
   </div>
 </template>
@@ -47,7 +47,7 @@ export default {
       }).then(res => {
         document.cookie = `token=${res.data.token}; max-age=1800; path=/`
         document.cookie = `uuid=${res.data.uuid}; max-age=1800; path=/`
-        this.$router.push('/admin')
+        this.$router.push('/admin/products')
         loader.hide()
       }).catch(err => {
         this.msg = err.response
