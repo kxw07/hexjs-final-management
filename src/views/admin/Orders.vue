@@ -7,9 +7,9 @@
         <tr>
           <th width="70">項次</th>
           <th>訂單編號</th>
-          <th width="120">購買商品</th>
+          <th width="150">購買商品</th>
           <th width="120">優惠券</th>
-          <th width="120">總價</th>
+          <th width="100">總價</th>
           <th width="120">付款方式</th>
           <th width="120">建立時間</th>
           <th width="120">更新時間</th>
@@ -21,10 +21,12 @@
         <tr v-for="(order, index) in orders" :key="order.id">
           <td>{{ index + 1 }}</td>
           <td>{{ order.id }}</td>
-          <ul v-for="(product, idx) in order.products" :key="idx">
-            <li>{{ product.product.title }} x {{ product.quantity }}</li>
-          </ul>
-          <td>{{ order.coupon }}</td>
+          <td>
+            <ul v-for="(product, idx) in order.products" :key="idx">
+              <li>{{ product.product.title }} x {{ product.quantity }}</li>
+            </ul>
+          </td>
+          <td>{{ order.coupon ? order.coupon.code : '' }}</td>
           <td class="text-right">{{ order.amount }}</td>
           <td>{{ order.payment }}</td>
           <td>{{ order.created.datetime }}</td>
@@ -35,9 +37,11 @@
           </td>
           <td>
             <div class="btn-group">
-              <button type="button" v-on:click="updateOrderState(order, 'paid')" class="btn btn-outline-primary btn-sm">標註已付款
+              <button type="button" v-on:click="updateOrderState(order, 'paid')"
+                      class="btn btn-outline-primary btn-sm">標註已付款
               </button>
-              <button type="button" v-on:click="updateOrderState(order, 'unpaid')" class="btn btn-outline-danger btn-sm">標註未付款
+              <button type="button" v-on:click="updateOrderState(order, 'unpaid')"
+                      class="btn btn-outline-danger btn-sm">標註未付款
               </button>
             </div>
           </td>
