@@ -117,12 +117,13 @@ export default {
       switch (mode) {
         case 'createProduct':
           this.productModalIsCreating = true
-          this.editingProduct = {}
+          this.editingProduct = { imageUrl: new Array(5) }
           this.$('#productModal').modal('show')
           break
         case 'editProduct':
           this.productModalIsCreating = false
           this.getProductDetail(product.id).then(productDetail => {
+            productDetail.imageUrl.length = 5
             this.editingProduct = productDetail
             this.$('#productModal').modal('show')
           })
