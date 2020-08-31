@@ -4,7 +4,7 @@
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
         <div class="modal-header bg-dark text-white">
-          <h5 class="modal-title" id="productModalLabel">{{productModalIsCreating?"新增產品":"編輯產品"}}</h5>
+          <h5 class="modal-title" id="productModalLabel">{{ productModalIsCreating ? '新增產品' : '編輯產品' }}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -12,11 +12,12 @@
         <div class="modal-body">
           <div class="row">
             <div class="col-sm-4">
-              <div class="form-group">
-                <label for="imageUrl">圖片網址</label>
-                <input id="imageUrl" type="text" placeholder="請輸入圖片連結" class="form-control" v-model="editingProduct.imageUrl"/>
+              <div class="form-group" v-for="(image, index) in editingProduct.imageUrl" :key="index">
+                <label :for="`imageUrl${index + 1}`">圖片網址 {{ index + 1 }}</label>
+                <input :id="`imageUrl${index + 1}`" type="text" placeholder="請輸入圖片連結" class="form-control"
+                       v-model="editingProduct.imageUrl[index]"/>
+                <img :src="image" class="img-fluid"/>
               </div>
-              <img :src="editingProduct.imageUrl" class="img-fluid"/>
             </div>
             <div class="col-sm-8">
               <div class="form-group">
@@ -97,12 +98,6 @@ export default {
     saveProduct () {
       const apiUrlForCreate = `${process.env.VUE_APP_API_URL}/api/${this.user.uuid}/admin/ec/product`
       const apiUrlForUpdate = `${process.env.VUE_APP_API_URL}/api/${this.user.uuid}/admin/ec/product/${this.editingProduct.id}`
-
-      if (this.editingProduct.imageUrl) {
-        const imageUrlArray = []
-        imageUrlArray.push(this.editingProduct.imageUrl)
-        this.editingProduct.imageUrl = imageUrlArray
-      }
 
       const loader = this.$loading.show()
 
