@@ -49,19 +49,26 @@
         </tbody>
       </table>
     </div>
+    <paging class="paging" :pagination="pagination" v-on:change-page="getOrders"></paging>
   </div>
 </template>
 
 <script>
+import paging from '@/components/paging.vue'
+
 export default {
   name: 'Orders',
+  components: {
+    paging
+  },
   data () {
     return {
       user: {
         token: '',
         uuid: ''
       },
-      orders: []
+      orders: [],
+      pagination: {}
     }
   },
   created () {
@@ -81,7 +88,7 @@ export default {
         this.user[key] = value
       })
     },
-    getOrders () {
+    getOrders (page = this.pagination.current_page || 1) {
       const loader = this.$loading.show()
       const headers = {
         'Content-Type': 'application/json',
@@ -90,7 +97,7 @@ export default {
       }
 
       this.axios({
-        url: `${process.env.VUE_APP_API_URL}/api/${this.user.uuid}/admin/ec/orders`,
+        url: `${process.env.VUE_APP_API_URL}/api/${this.user.uuid}/admin/ec/orders?page=${page}`,
         method: 'get',
         headers: headers
       }).then(res => {
