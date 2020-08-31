@@ -37,10 +37,10 @@
           </td>
           <td>
             <div class="btn-group">
-              <button type="button" v-on:click="updateOrderState(order, 'paid')"
+              <button v-if="order.paid == false" type="button" v-on:click="updateOrderState(order, 'paid')"
                       class="btn btn-outline-primary btn-sm">標註已付款
               </button>
-              <button type="button" v-on:click="updateOrderState(order, 'unpaid')"
+              <button v-else type="button" v-on:click="updateOrderState(order, 'unpaid')"
                       class="btn btn-outline-danger btn-sm">標註未付款
               </button>
             </div>
