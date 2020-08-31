@@ -19,11 +19,11 @@
         </thead>
         <tbody>
         <tr v-for="(product, index) in products" :key="product.id">
-          <td>{{index+1}}</td>
-          <td>{{product.category}}</td>
-          <td>{{product.title}}</td>
-          <td class="text-right">{{product.origin_price}}</td>
-          <td class="text-right">{{product.price}}</td>
+          <td>{{ index + 1 }}</td>
+          <td>{{ product.category }}</td>
+          <td>{{ product.title }}</td>
+          <td class="text-right">{{ product.origin_price }}</td>
+          <td class="text-right">{{ product.price }}</td>
           <td>
             <span v-if="product.enabled" class="text-success">啟用</span>
             <span v-else>未啟用</span>
@@ -44,8 +44,10 @@
     </div>
     <paging class="paging" :pagination="pagination" v-on:change-page="getProducts"></paging>
 
-    <product-modal :editing-product="editingProduct" :product-modal-is-creating="productModalIsCreating" :user="user" v-on:update-products="getProducts"></product-modal>
-    <delete-modal :mode='"product"' :editing-item="editingProduct" :user="user" v-on:update-list="getProducts"></delete-modal>
+    <product-modal :editing-product="editingProduct" :product-modal-is-creating="productModalIsCreating" :user="user"
+                   v-on:update-products="getProducts"></product-modal>
+    <delete-modal :mode='"product"' :editing-item="editingProduct" :user="user"
+                  v-on:update-list="getProducts"></delete-modal>
   </div>
 </template>
 
