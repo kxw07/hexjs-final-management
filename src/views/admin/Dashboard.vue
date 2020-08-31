@@ -7,7 +7,7 @@
       |
       <router-link to="/admin/orders">訂單列表</router-link>
       |
-      <router-link to="/admin/pictures">圖片列表</router-link>
+      <router-link to="/admin/storage">檔案儲存列表</router-link>
       |
       <router-link to="/admin/logout">登出</router-link>
     </div>

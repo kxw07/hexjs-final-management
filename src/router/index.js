@@ -30,9 +30,9 @@ const routes = [
         component: () => import(/* webpackChunkName: "about" */ '../views/admin/Orders.vue')
       },
       {
-        path: 'pictures',
-        name: 'Pictures',
-        component: () => import(/* webpackChunkName: "about" */ '../views/admin/Pictures.vue')
+        path: 'storage',
+        name: 'Storage',
+        component: () => import(/* webpackChunkName: "about" */ '../views/admin/Storage.vue')
       },
       {
         path: 'logout',

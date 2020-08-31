@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="container">
-    <h2>圖片儲存列表</h2>
+    <h2>檔案儲存列表</h2>
     <table class="table mt-4">
       <thead>
       <tr>
@@ -9,36 +9,36 @@
       </tr>
       </thead>
       <tbody>
-      <tr v-for="(picture, index) in pictures" :key="picture.id">
+      <tr v-for="(file, index) in files" :key="file.id">
         <td>{{ index + 1 }}</td>
-        <td>{{ picture.id }}</td>
-        <td>{{ picture.path }}</td>
+        <td>{{ file.id }}</td>
+        <td>{{ file.path }}</td>
         <td>
-          <button type="button" v-on:click="openModal('deletePicture', picture)"
+          <button type="button" v-on:click="openModal('deleteFile', file)"
                   class="btn btn-outline-danger btn-sm">刪除
           </button>
         </td>
       </tr>
       </tbody>
     </table>
-    <paging class="paging" :pagination="pagination" v-on:change-page="getPictures"></paging>
+    <paging class="paging" :pagination="pagination" v-on:change-page="getFiles"></paging>
 
-    <delete-modal :mode='"storage"' :editing-item="editingPicture" :user="user"
-                  v-on:update-list="getPictures"></delete-modal>
+    <delete-modal :mode='"storage"' :editing-item="editingFile" :user="user"
+                  v-on:update-list="getFiles"></delete-modal>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Pictures',
+  name: 'storage',
   data () {
     return {
       user: {
         token: '',
         uuid: ''
       },
-      pictures: [],
-      editingPicture: {},
+      files: [],
+      editingFile: {},
       pagination: {}
     }
   },
@@ -49,7 +49,7 @@ export default {
       this.$router.push('/')
     }
 
-    this.getPictures()
+    this.getFiles()
   },
   methods: {
     setUserInfoData () {
@@ -59,7 +59,7 @@ export default {
         this.user[key] = value
       })
     },
-    getPictures (page = this.pagination.current_page || 1) {
+    getFiles (page = this.pagination.current_page || 1) {
       const loader = this.$loading.show()
       const headers = {
         'Content-Type': 'application/json',
@@ -68,11 +68,11 @@ export default {
       }
 
       this.axios({
-        url: `${process.env.VUE_APP_API_URL}/api/${this.user.uuid}/admin/storage`,
+        url: `${process.env.VUE_APP_API_URL}/api/${this.user.uuid}/admin/storage?page=${page}`,
         method: 'get',
         headers: headers
       }).then(res => {
-        this.pictures = res.data.data
+        this.files = res.data.data
         this.pagination = res.data.meta.pagination
         loader.hide()
       }).catch(err => {
@@ -80,10 +80,10 @@ export default {
         loader.hide()
       })
     },
-    openModal (mode, picture) {
+    openModal (mode, file) {
       switch (mode) {
-        case 'deletePicture':
-          this.editingCoupon = Object.assign({}, picture)
+        case 'deleteFile':
+          this.editingCoupon = Object.assign({}, file)
           this.$('#deleteModal').modal('show')
           break
         default:
