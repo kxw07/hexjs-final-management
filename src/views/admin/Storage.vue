@@ -1,36 +1,51 @@
 <template>
   <div id="app" class="container">
     <h2>檔案儲存列表</h2>
-    <table class="table mt-4">
-      <thead>
-      <tr>
-        <th>ID</th>
-        <th>路徑</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr v-for="(file, index) in files" :key="file.id">
-        <td>{{ index + 1 }}</td>
-        <td>{{ file.id }}</td>
-        <td>{{ file.path }}</td>
-        <td>
-          <button type="button" v-on:click="openModal('deleteFile', file)"
-                  class="btn btn-outline-danger btn-sm">刪除
-          </button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+    <div>
+      <div class="text-right mt-4">
+        <button type="button" v-on:click="openModal('uploadFile')" class="btn btn-primary">上傳檔案</button>
+      </div>
+      <table class="table mt-4">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>路徑</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="(file, index) in files" :key="file.id">
+          <td>{{ index + 1 }}</td>
+          <td>{{ file.id }}</td>
+          <td>{{ file.path }}</td>
+          <td>
+            <button type="button" v-on:click="openModal('deleteFile', file)"
+                    class="btn btn-outline-danger btn-sm">刪除
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
     <paging class="paging" :pagination="pagination" v-on:change-page="getFiles"></paging>
 
+    <file-modal :user="user" v-on:update-files="getFiles"></file-modal>
     <delete-modal :mode='"storage"' :editing-item="editingFile" :user="user"
                   v-on:update-list="getFiles"></delete-modal>
   </div>
 </template>
 
 <script>
+import paging from '@/components/paging.vue'
+import fileModal from '@/components/fileModal.vue'
+import deleteModal from '@/components/deleteModal.vue'
+
 export default {
   name: 'storage',
+  components: {
+    paging,
+    fileModal,
+    deleteModal
+  },
   data () {
     return {
       user: {
@@ -80,10 +95,12 @@ export default {
         loader.hide()
       })
     },
-    openModal (mode, file) {
+    openModal (mode) {
       switch (mode) {
+        case 'uploadFile':
+          this.$('#fileModal').modal('show')
+          break
         case 'deleteFile':
-          this.editingCoupon = Object.assign({}, file)
           this.$('#deleteModal').modal('show')
           break
         default:
