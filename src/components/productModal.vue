@@ -51,13 +51,13 @@
               </div>
               <hr>
               <div class="form-group">
-                <label for="productDescription">產品描述</label>
-                <input id="productDescription" type="text" placeholder="請輸入產品描述" class="form-control"
+                <label for="productDescription">後台產品描述</label>
+                <input id="productDescription" type="text" placeholder="請輸入後台產品描述" class="form-control"
                        v-model="editingProduct.description"/>
               </div>
               <div class="form-group">
-                <label for="productContent">產品說明</label>
-                <input id="productContent" type="text" placeholder="請輸入產品說明" class="form-control"
+                <label for="productContent">前台產品說明</label>
+                <input id="productContent" type="text" placeholder="請輸入前台產品說明" class="form-control"
                        v-model="editingProduct.content"/>
               </div>
               <div class="form-check">
