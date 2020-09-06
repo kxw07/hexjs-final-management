@@ -8,15 +8,16 @@
       <table class="table mt-4">
         <thead>
         <tr>
+          <th>項次</th>
           <th>ID</th>
-          <th>路徑</th>
+          <th width="400">路徑</th>
         </tr>
         </thead>
         <tbody>
         <tr v-for="(file, index) in files" :key="file.id">
           <td>{{ index + 1 }}</td>
           <td>{{ file.id }}</td>
-          <td>{{ file.path }}</td>
+          <td style="word-break:break-all; word-wrap:break-all;">{{ file.path }}</td>
           <td>
             <button type="button" v-on:click="openModal('deleteFile', file)"
                     class="btn btn-outline-danger btn-sm">刪除
