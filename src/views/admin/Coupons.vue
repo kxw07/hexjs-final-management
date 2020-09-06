@@ -8,7 +8,7 @@
       <table class="table mt-4">
         <thead>
         <tr>
-          <th width="70">項次</th>
+          <th width="60">項次</th>
           <th width="120">優惠券名</th>
           <th width="120">優惠碼</th>
           <th width="120">折扣百分比</th>

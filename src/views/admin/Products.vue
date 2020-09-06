@@ -8,7 +8,7 @@
       <table class="table mt-4">
         <thead>
         <tr>
-          <th width="70">項次</th>
+          <th width="60">項次</th>
           <th width="120">分類</th>
           <th>產品名稱</th>
           <th width="120">原價</th>

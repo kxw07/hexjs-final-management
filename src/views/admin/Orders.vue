@@ -5,9 +5,9 @@
       <table class="table">
         <thead>
         <tr>
-          <th width="70">項次</th>
-          <th>訂單編號</th>
-          <th width="150">購買商品</th>
+          <th width="60">項次</th>
+          <th width="300">訂單編號</th>
+          <th width="200">購買商品</th>
           <th width="120">優惠券</th>
           <th width="100">總價</th>
           <th width="120">付款方式</th>
@@ -20,7 +20,7 @@
         <tbody>
         <tr v-for="(order, index) in orders" :key="order.id">
           <td>{{ index + 1 }}</td>
-          <td>{{ order.id }}</td>
+          <td style="word-break:break-all; word-wrap:break-all;">{{ order.id }}</td>
           <td>
             <ul v-for="(product, idx) in order.products" :key="idx">
               <li>{{ product.product.title }} x {{ product.quantity }}</li>
@@ -136,7 +136,7 @@ export default {
 
 <style lang="scss">
 .custom-container-width {
-  max-width: 70vw;
+  max-width: 75vw;
 }
 
 ul {
